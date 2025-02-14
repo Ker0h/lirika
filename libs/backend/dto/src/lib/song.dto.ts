@@ -1,100 +1,97 @@
+import { ICreateSong, IUpdateSong, SongGenre } from '@lirika/shared/api';
+
 import {
-  ICreateSong,
-  IUpdateSong,
-  IUpsertSong,
-  SongGenre
-} from '@lirika/shared/api'
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength
+} from 'class-validator';
 
-import { IsDateString, IsEnum, IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator'
-
+// Song DTO's
 export class CreateSongDto implements ICreateSong {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  title!: string
+  title!: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(255)
-  artist!: string
+  artist!: string;
 
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  album!: string
+  @IsOptional()
+  album?: string;
 
   @IsEnum(SongGenre)
-  genre!: SongGenre
-
-  @IsNumber()
-  @IsNotEmpty()
-  duration!: number
+  @IsOptional()
+  genre?: SongGenre;
 
   @IsDateString()
+  @IsOptional()
+  releaseDate?: Date;
+
+  @IsString()
   @IsNotEmpty()
-  releaseDate!: Date
+  addedBy!: string;
 }
 
 export class UpdateSongDto implements IUpdateSong {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(255)
-  title!: string
+  title?: string;
 
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  artist!: string
+  @IsOptional()
+  artist?: string;
 
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  album!: string
+  @IsOptional()
+  album?: string;
 
   @IsEnum(SongGenre)
-  genre!: SongGenre
+  @IsOptional()
+  genre?: SongGenre;
 
-  @IsNumber()
-  @IsNotEmpty()
-  duration!: number
+  @IsOptional()
+  duration?: number;
 
   @IsDateString()
-  @IsNotEmpty()
-  releaseDate!: Date
+  @IsOptional()
+  releaseDate?: Date;
 }
 
 export class UpsertSongDto implements IUpsertSong {
   @IsString()
   @IsNotEmpty()
-  id!: string
+  id!: string;
 
   @IsString()
   @IsNotEmpty()
-  addedBy!: string
+  title!: string;
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(255)
-  title!: string
+  artist!: string;
 
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  artist!: string
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
-  album!: string
+  @IsOptional()
+  album?: string;
 
   @IsEnum(SongGenre)
-  genre!: SongGenre
+  @IsOptional()
+  genre?: SongGenre;
 
-  @IsNumber()
-  @IsNotEmpty()
-  duration!: number
+  @IsOptional()
+  duration?: number;
 
   @IsDateString()
+  @IsOptional()
+  releaseDate?: Date;
+
+  @IsString()
   @IsNotEmpty()
-  releaseDate!: Date
+  addedBy!: string;
 }

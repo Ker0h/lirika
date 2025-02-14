@@ -6,14 +6,13 @@ export interface ISong {
   id: string;
   title: string;
   artist: string;
-  album: string;
-  genre: SongGenre;
-  duration: number;
-  releaseDate: Date;
+  album?: string; // Optional
+  genre?: SongGenre; // Optional
+  releaseDate?: Date; // Optional
   addedBy: User;
 }
 
-export type ICreateSong = Pick<ISong, 'title' | 'artist' | 'album' | 'genre' | 'duration' | 'releaseDate'>;
+export type ICreateSong = Omit<ISong, 'id' | 'addedBy'> & { addedBy: User };
 
 export type IUpdateSong = Partial<Omit<ISong, 'id' | 'addedBy'>>;
 
