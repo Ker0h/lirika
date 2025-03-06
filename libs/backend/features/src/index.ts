@@ -1,1 +1,4 @@
-export * from './lib/song.module';
+export * from './lib/music.module';
+export * from './lib/user.module';
+
+

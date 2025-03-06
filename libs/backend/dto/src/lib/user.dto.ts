@@ -18,8 +18,7 @@ export class CreateUserDto implements ICreateUser {
   password!: string;
 
   @IsEnum(UserRole)
-  @IsOptional()
-  role?: UserRole;
+  role!: UserRole;
 }
 
 export class UpdateUserDto implements IUpdateUser {
@@ -50,6 +49,6 @@ export class UpsertUserDto implements IUpsertUser {
   password!: string;
 
   @IsEnum(UserRole)
-  @IsOptional()
-  role?: UserRole;
+  @IsNotEmpty()
+  role!: UserRole;
 }

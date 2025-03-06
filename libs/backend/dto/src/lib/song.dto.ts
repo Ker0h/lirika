@@ -1,4 +1,4 @@
-import { ICreateSong, IUpdateSong, SongGenre } from '@lirika/shared/api';
+import { ICreateSong, IUpdateSong, IUpsertSong, SongGenre } from '@lirika/shared/api';
 
 import {
   IsDateString,

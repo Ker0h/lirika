@@ -15,16 +15,16 @@ export class Song extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Album' })
   album!: Types.ObjectId;
 
-  @Prop()
+  @Prop({ type: Date, default: Date.now })
   releaseDate!: Date;
 
-  @Prop()
+  @Prop({ type: String, default: SongGenre.Pop })
   genre!: SongGenre
 
   @Prop({ default: Date.now })
   createdAt!: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: Types.ObjectId, ref: 'User', default: '1233455666564' })
   user!: User;
 }
 

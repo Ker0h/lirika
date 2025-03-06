@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NxWelcome from './NxWelcome.vue';
+import About from './About.vue';
 </script>
 
 <template>
-  <NxWelcome title="lirika" />
+  <About />
 </template>
