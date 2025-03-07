@@ -8,7 +8,7 @@ export class Artist extends Document {
   @Prop({ required: true })
   name!: string;
 
-  @Prop()
+  @Prop({ type: String, required: true, enum: Object.values(SongGenre) })
   genre!: SongGenre;
 
   @Prop({ default: Date.now })

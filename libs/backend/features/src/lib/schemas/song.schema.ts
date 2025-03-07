@@ -1,6 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Artist } from './artist.schema';
 import { User } from './user.schema';
 import { SongGenre } from '@lirika/shared/api';
 
