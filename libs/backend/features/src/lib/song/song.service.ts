@@ -14,7 +14,11 @@ export class SongService {
   }
 
   async findAll(): Promise<Song[]> {
-    return this.songModel.find().exec();
+    return this.songModel
+    .find()
+    .populate('artist')
+    .populate('album')
+    .exec();
   }
 
   async findOne(id: string): Promise<Song> {

@@ -7,7 +7,7 @@
       Users can add, update, and organize their favorite tracks.
     </p>
     <p>
-      In the future, users will
+      In the future, users will be able to add translations and transliterations to these songs in order to help them learn languages in a fun and interactive way.
     </p>
     <h2 class="subtitle">Features</h2>
     <ul class="features">
