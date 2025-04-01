@@ -1,6 +1,6 @@
 <template>
-  <div class="p-6">
-    <h2 class="text-center mb-4">Artists</h2>
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">🎤 Artists</h2>
     <ArtistList />
   </div>
 </template>

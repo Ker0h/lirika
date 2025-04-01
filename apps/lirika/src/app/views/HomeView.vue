@@ -1,6 +1,9 @@
+<script setup>
+import { About } from '@lirika/ui';
+</script>
+
 <template>
-  <div>
-    <h1>Home Page</h1>
-    <p>Welcome to our Vue app!</p>
+  <div class="container mt-4">
+    <About />
   </div>
 </template>

@@ -16,11 +16,11 @@ const routes = [
   { path: "/login", component: LoginView, name: "login" },
   { path: "/about", component: AboutView, name: "about" },
   { path: "/songs", component: SongView, name: "songs" },
-  { path: '/songs/:id', component: SongDetailView, props: true },
+  { path: '/songs/:id', component: SongDetailView, name: "SongDetail", props: true },
   { path: "/albums", component: AlbumView, name: "albums" },
-  { path: '/albums/:id', component: AlbumDetailView, props: true },
+  { path: '/albums/:id', component: AlbumDetailView, name: "AlbumDetail", props: true },
   { path: "/artists", component: ArtistView, name: "artists" },
-  { path: '/artists/:id', component: ArtistDetailView, props: true },
+  { path: '/artists/:id', component: ArtistDetailView, name: "ArtistDetail", props: true },
   { path: "/:pathMatch(.*)*", redirect: { name: "home" } },
 ];
 
