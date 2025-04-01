@@ -14,11 +14,18 @@ export class ArtistService {
   }
 
   async findAll(): Promise<Artist[]> {
-    return this.artistModel.find().exec();
+    return this.artistModel.find()
+    .populate('songs')
+    .populate('albums')
+    .exec();
   }
 
   async findOne(id: string): Promise<Artist> {
-    const artist = await this.artistModel.findById(id).exec();
+    const artist = await this.artistModel.findById(id)
+    .populate('songs')
+    .populate('albums')
+    .exec();
+
     if (!artist) {
       throw new NotFoundException(`Artist with ID: ${id} not found`);
     }

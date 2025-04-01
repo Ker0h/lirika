@@ -9,6 +9,9 @@ export class Album extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Artist', required: true })
   artist!: Types.ObjectId;
 
+  @Prop({ type: [Types.ObjectId], ref: 'Song' })
+  songs!: Types.ObjectId[];
+
   @Prop({ type: Date, default: Date.now })
   releaseDate!: Date;
 

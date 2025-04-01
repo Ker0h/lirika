@@ -21,11 +21,12 @@ onMounted(async () => {
     </div>
 
     <div class="row">
-      <div v-for="artist in artists" :key="artist.id" class="col-md-4 mb-4">
+      <div v-for="artist in artists" :key="artist._id" class="col-md-4 mb-4">
         <div class="card shadow h-100">
           <div class="card-body">
             <h5 class="card-title">{{ artist.name }}</h5>
             <p class="card-text"><strong>Genre:</strong> {{ artist.genre }}</p>
+            <router-link :to="`/artists/${artist._id}`" class="btn btn-primary">View Details</router-link>
           </div>
         </div>
       </div>

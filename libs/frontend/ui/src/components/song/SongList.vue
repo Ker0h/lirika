@@ -10,9 +10,9 @@
           <div class="card-body">
             <h5 class="card-title">{{ song.title }}</h5>
             <p class="card-text"><strong>Artist:</strong> {{ song.artist.name }}</p>
-            <p class="card-text"><strong>Album:</strong> {{ song.album.title }}</p>
-            <p class="card-text"><strong>Genre:</strong> {{ song.genre }}</p>
-            <p class="card-text"><strong>Release Date:</strong> {{ formatDate(song.releaseDate) }}</p>
+            <router-link :to="`/songs/${song._id}`" class="btn btn-primary">
+              View Song
+            </router-link>
           </div>
         </div>
       </div>

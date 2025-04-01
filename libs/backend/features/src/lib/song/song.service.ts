@@ -22,7 +22,10 @@ export class SongService {
   }
 
   async findOne(id: string): Promise<Song> {
-    const song = await this.songModel.findById(id).exec();
+    const song = await this.songModel.findById(id)
+    .populate('artist')
+    .populate('album')
+    .exec();
     if (!song) {
       throw new NotFoundException(`Song with ID: ${id} not found`);
     }
