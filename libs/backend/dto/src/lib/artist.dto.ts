@@ -4,7 +4,7 @@ import {
   IUpsertArtist
 } from '@lirika/shared/api';
 
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 // ARTIST DTOs
 export class CreateArtistDto implements ICreateArtist {
@@ -16,6 +16,18 @@ export class CreateArtistDto implements ICreateArtist {
   @IsString()
   @IsOptional()
   genre?: string;
+
+  @IsString()
+  @IsOptional()
+  biography?: string;
+
+  @IsDate()
+  @IsOptional()
+  debutYear?: number;
+
+  @IsString()
+  @IsOptional()
+  country?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -31,6 +43,18 @@ export class UpdateArtistDto implements IUpdateArtist {
   @IsString()
   @IsOptional()
   genre?: string;
+
+  @IsString()
+  @IsOptional()
+  biography?: string;
+
+  @IsDate()
+  @IsOptional()
+  debutYear?: number;
+
+  @IsString()
+  @IsOptional()
+  country?: string;
 }
 
 export class UpsertArtistDto implements IUpsertArtist {
@@ -46,6 +70,18 @@ export class UpsertArtistDto implements IUpsertArtist {
   @IsString()
   @IsOptional()
   genre?: string;
+
+  @IsString()
+  @IsOptional()
+  biography?: string;
+
+  @IsDate()
+  @IsOptional()
+  debutYear?: number;
+
+  @IsString()
+  @IsOptional()
+  country?: string;
 
   @IsString()
   @IsNotEmpty()

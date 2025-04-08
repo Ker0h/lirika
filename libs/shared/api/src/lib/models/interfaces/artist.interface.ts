@@ -4,6 +4,11 @@ export interface IArtist {
   id: string;
   name: string;
   genre?: string;
+  biography?: string;
+  debutYear?: number;
+  country?: string;
+  albums?: string[];
+  songs?: string[];
   addedBy: User;
 }
 

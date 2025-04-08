@@ -1,26 +1,14 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const albums = ref([]);
-const loading = ref(true);
-const error = ref(null);
 
-const fetchAlbums = async () => {
-  try {
-    const response = await axios.get("http://localhost:3000/api/albums");
-    albums.value = response.data;
-  } catch (err) {
-    console.error("Error fetching albums:", err);
-    error.value = "Failed to load albums. Please try again.";
-  } finally {
-    loading.value = false;
-  }
-};
-
-onMounted(fetchAlbums);
+defineProps({
+  albums: {
+    type: Array,
+    required: true,
+  },
+});
 
 const goToDetail = (albumId) => {
   router.push({ name: "AlbumDetail", params: { id: albumId } });
@@ -29,17 +17,7 @@ const goToDetail = (albumId) => {
 
 <template>
   <div class="container mt-4">
-    <div v-if="loading" class="text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-
-    <div v-else-if="error" class="alert alert-danger text-center">
-      {{ error }}
-    </div>
-
-    <div v-else class="row">
+    <div class="row">
       <div v-for="album in albums" :key="album._id" class="col-md-4 mb-4">
         <div class="card album-card shadow-sm" @click="goToDetail(album._id)">
           <div class="card-body">

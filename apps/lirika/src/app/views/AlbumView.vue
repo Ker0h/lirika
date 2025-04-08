@@ -1,10 +1,41 @@
-<template>
-  <div class="container mt-4">
-    <h2 class="text-center mb-4">📀 Albums</h2>
-    <AlbumList />
-  </div>
-</template>
-
 <script setup>
 import { AlbumList } from '@lirika/ui';
+
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const albums = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+const fetchAlbums = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/albums");
+    albums.value = response.data;
+  } catch (err) {
+    console.error("Error fetching albums:", err);
+    error.value = "Failed to load albums. Please try again.";
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(fetchAlbums);
 </script>
+
+<template>
+  <div class="container mt-4">
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div v-else-if="error" class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+    <div v-else>
+      <h2 class="text-center mb-4">📀 Albums</h2>
+      <AlbumList :albums="albums" />
+    </div>
+  </div>
+</template>

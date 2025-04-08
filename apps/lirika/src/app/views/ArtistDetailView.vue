@@ -55,29 +55,32 @@ onMounted(fetchArtist);
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <strong>🌍 Genre:</strong> {{ artist.genre || "Not specified" }}
+              <strong>🎵 Genre:</strong> {{ artist.genre || "Not specified" }}
             </li>
 
             <li class="list-group-item">
-              <strong>🎵 Songs: </strong>
-              <ul>
-                <li v-for="song in artist.songs" :key="song._id">
-                  <router-link :to="`/songs/${song._id}`" class="animated-link">
-                    {{ song.title || "Unknown Song" }}
-                  </router-link>
-                </li>
-              </ul>
+              <strong>📝 Biography:</strong>
+              <p>{{ artist.biography || "No biography available." }}</p>
             </li>
 
             <li class="list-group-item">
-              <strong>💿 Albums: </strong>
-              <ul>
-                <li v-for="album in artist.albums" :key="album._id">
-                  <router-link :to="`/albums/${album._id}`" class="animated-link">
-                    {{ album.title || "Unknown Album" }}
-                  </router-link>
-                </li>
-              </ul>
+              <strong>🌍 Country:</strong> {{ artist.country || "Not specified" }}
+            </li>
+
+            <li class="list-group-item">
+              <strong>📅 Debut Year:</strong> {{ artist.debutYear || "Not specified" }}
+            </li>
+
+            <li class="list-group-item">
+              <router-link :to="`/artists/${artist._id}/songs`" class="animated-link">
+                <strong>🎶 Songs:</strong> {{ artist.songs.length || 0 }} songs
+              </router-link>
+            </li>
+
+            <li class="list-group-item">
+              <router-link :to="`/artists/${artist._id}/albums`" class="animated-link">
+                <strong>📀 Albums:</strong> {{ artist.albums.length || 0 }} albums
+              </router-link>
             </li>
           </ul>
 

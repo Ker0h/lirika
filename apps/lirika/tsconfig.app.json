@@ -23,6 +23,9 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.vue"],
   "references": [
     {
+      "path": "../../libs/shared/api"
+    },
+    {
       "path": "../../libs/frontend/ui"
     }
   ]
