@@ -22,11 +22,11 @@ const routes = [
   { path: '/albums/:id', component: AlbumDetailView, name: "AlbumDetail", props: true },
   { path: "/artists", component: ArtistView, name: "artists" },
   { path: "/artists/new", component: ArtistFormView, name: "ArtistCreate" },
-    { path: '/artists/:id/edit', component: ArtistFormView, name: "ArtistEdit", props: true },
+  { path: '/artists/:id/edit', component: ArtistFormView, name: "ArtistEdit", props: true },
   { path: '/artists/:id/songs', component: ArtistSongsView, name: "ArtistSongs", props: true },
   { path: '/artists/:id/albums', component: ArtistAlbumsView, name: "ArtistAlbums", props: true },
   { path: '/artists/:id', component: ArtistDetailView, name: "ArtistDetail", props: true },
-  //{ path: "/:pathMatch(.*)*", redirect: { name: "home" } },
+  { path: "/:pathMatch(.*)*", redirect: { name: "home" } },
 ];
 
 const router = createRouter({

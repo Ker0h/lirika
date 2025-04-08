@@ -234,7 +234,7 @@ export enum ArtistCountry {
     UG = 'Uganda',
     UA = 'Ukraine',
     AE = 'United Arab Emirates',
-    GB = 'United Kingdom',
+    UK = 'United Kingdom',
     US = 'United States',
     UM = 'United States Outlying Islands',
     UY = 'Uruguay',

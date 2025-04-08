@@ -19,6 +19,7 @@ export class CreateArtistDto implements ICreateArtist {
 
   @IsString()
   @IsOptional()
+  @MaxLength(255)
   biography?: string;
 
   @IsDate()
@@ -46,6 +47,7 @@ export class UpdateArtistDto implements IUpdateArtist {
 
   @IsString()
   @IsOptional()
+  @MaxLength(255)
   biography?: string;
 
   @IsDate()

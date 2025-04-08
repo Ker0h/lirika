@@ -1,11 +1,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { computed } from "vue";
+import { ArtistCountry } from "@lirika/shared/api";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
 const artist = ref(null);
+
+const countryName = computed(() => {
+  if (!artist.value || !artist.value.country) return "Not specified";
+  return ArtistCountry[artist.value.country] || artist.value.country;
+});
+
 const loading = ref(true);
 const error = ref(null);
 
@@ -64,7 +72,7 @@ onMounted(fetchArtist);
             </li>
 
             <li class="list-group-item">
-              <strong>🌍 Country:</strong> {{ artist.country || "Not specified" }}
+              <strong>🌍 Country:</strong> {{ countryName }}
             </li>
 
             <li class="list-group-item">
@@ -85,8 +93,16 @@ onMounted(fetchArtist);
           </ul>
 
           <div class="text-center mt-4 d-flex justify-content-center gap-3">
-            <router-link to="/artists" class="btn btn-primary">⬅ Back to Artists</router-link>
+            <router-link :to="`/artists/${artist._id}/edit`" class="btn btn-primary">
+              ✏️ Edit Artist
+            </router-link>
             <button @click="deleteArtist" class="btn btn-danger">🗑 Delete Artist</button>
+          </div>
+
+          <div class="text-center mt-4">
+            <router-link to="/artists" class="btn btn-secondary">
+              🔙 Back to Artists
+            </router-link>
           </div>
         </div>
       </div>

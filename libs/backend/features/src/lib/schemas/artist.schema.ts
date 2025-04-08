@@ -1,4 +1,4 @@
-import { SongGenre } from '@lirika/shared/api';
+import { ArtistCountry, SongGenre } from '@lirika/shared/api';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -10,6 +10,15 @@ export class Artist extends Document {
 
   @Prop({ type: String, required: true, enum: Object.values(SongGenre) })
   genre!: SongGenre;
+
+  @Prop({ type: String })
+  biography?: string;
+
+  @Prop({ type: Number })
+  debutYear?: number;
+
+  @Prop({ type: String, enum: Object.values(ArtistCountry) })
+  country?: ArtistCountry;
 
   @Prop({ type: [Types.ObjectId], ref: 'Song' })
   songs!: Types.ObjectId[];
