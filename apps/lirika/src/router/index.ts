@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../app/views/HomeView.vue";
-import AboutView from "../app/views/AboutView.vue";
 import SongView from "../app/views/SongView.vue";
 import SongDetailView from "../app/views/SongDetailView.vue";
 import AlbumView from "../app/views/AlbumView.vue";
@@ -14,7 +13,6 @@ const routes = [
   { path: "/", component: HomeView, name: "home" },
   { path: "/register", component: RegisterUserView, name: "register" },
   { path: "/login", component: LoginView, name: "login" },
-  { path: "/about", component: AboutView, name: "about" },
   { path: "/songs", component: SongView, name: "songs" },
   { path: '/songs/:id', component: SongDetailView, name: "SongDetail", props: true },
   { path: "/albums", component: AlbumView, name: "albums" },

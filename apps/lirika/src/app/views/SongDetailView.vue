@@ -21,6 +21,18 @@ const fetchSong = async () => {
   }
 };
 
+const deleteSong = async () => {
+  if (!confirm("Are you sure you want to delete this song?")) return;
+
+  try {
+    await axios.delete(`http://localhost:3000/api/songs/${route.params.id}`);
+    router.push("/songs");
+  } catch (err) {
+    console.error("Error deleting song:", err);
+    alert("Failed to delete song. Try again.");
+  }
+};
+
 onMounted(fetchSong);
 </script>
 
@@ -62,8 +74,9 @@ onMounted(fetchSong);
             </li>
           </ul>
 
-          <div class="text-center mt-4">
+          <div class="text-center mt-4 d-flex justify-content-center gap-3">
             <router-link to="/songs" class="btn btn-primary">⬅ Back to Songs</router-link>
+            <button @click="deleteSong" class="btn btn-danger">🗑 Delete Song</button>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const album = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-const fetchalbum = async () => {
+const fetchAlbum = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/albums/${route.params.id}`);
     album.value = response.data;
@@ -19,7 +19,19 @@ const fetchalbum = async () => {
   }
 };
 
-onMounted(fetchalbum);
+const deleteAlbum = async () => {
+  if (!confirm("Are you sure you want to delete this album?")) return;
+
+  try {
+    await axios.delete(`http://localhost:3000/api/albums/${route.params.id}`);
+    router.push("/albums");
+  } catch (err) {
+    console.error("Error deleting album:", err);
+    alert("Failed to delete album. Try again.");
+  }
+};
+
+onMounted(fetchAlbum);
 </script>
 
 <template>
@@ -53,7 +65,10 @@ onMounted(fetchalbum);
             </li>
           </ul>
 
-          <router-link to="/albums" class="btn btn-secondary mt-3">Back to albums</router-link>
+          <div class="text-center mt-4 d-flex justify-content-center gap-3">
+            <router-link to="/albums" class="btn btn-primary">⬅ Back to Albums</router-link>
+            <button @click="deleteAlbum" class="btn btn-danger">🗑 Delete Album</button>
+          </div>
         </div>
       </div>
     </div>

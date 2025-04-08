@@ -9,7 +9,7 @@ const artist = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
-const fetchartist = async () => {
+const fetchArtist = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/artists/${route.params.id}`);
     artist.value = response.data;
@@ -21,7 +21,19 @@ const fetchartist = async () => {
   }
 };
 
-onMounted(fetchartist);
+const deleteArtist = async () => {
+  if (!confirm("Are you sure you want to delete this artist?")) return;
+
+  try {
+    await axios.delete(`http://localhost:3000/api/artists/${route.params.id}`);
+    router.push("/artists");
+  } catch (err) {
+    console.error("Error deleting artist:", err);
+    alert("Failed to delete artist. Try again.");
+  }
+};
+
+onMounted(fetchArtist);
 </script>
 
 <template>
@@ -69,8 +81,9 @@ onMounted(fetchartist);
             </li>
           </ul>
 
-          <div class="text-center mt-4">
-            <router-link to="/artists" class="btn btn-primary">⬅ Back to artists</router-link>
+          <div class="text-center mt-4 d-flex justify-content-center gap-3">
+            <router-link to="/artists" class="btn btn-primary">⬅ Back to Artists</router-link>
+            <button @click="deleteArtist" class="btn btn-danger">🗑 Delete Artist</button>
           </div>
         </div>
       </div>
