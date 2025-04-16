@@ -5,8 +5,8 @@ import {
   Get,
   NotFoundException,
   Param,
-  Patch,
-  Post
+  Post,
+  Put
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@lirika/backend/dto';
@@ -35,7 +35,7 @@ export class AlbumController {
   }
 
   // UPDATE an album
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateAlbumDto: UpdateAlbumDto

@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 const route = useRoute();
+const router = useRouter();
 const album = ref(null);
 const loading = ref(true);
 const error = ref(null);
@@ -54,7 +55,7 @@ onMounted(fetchAlbum);
               {{ album.artist.name }}
             </router-link>
           </p>
-          <p class="card-text"><strong>Release Date:</strong> {{ album.releaseDate }}</p>
+          <p class="card-text"><strong>Year of Release:</strong> {{ album.releaseYear }}</p>
           <h3 class="mt-4">Songs</h3>
           <ul class="list-group">
             <li v-for="song in album.songs" :key="song.id" class="list-group-item">
@@ -66,8 +67,16 @@ onMounted(fetchAlbum);
           </ul>
 
           <div class="text-center mt-4 d-flex justify-content-center gap-3">
-            <router-link to="/albums" class="btn btn-primary">⬅ Back to Albums</router-link>
+            <router-link :to="`/albums/${album._id}/edit`" class="btn btn-primary">
+              ✏️ Edit Album
+            </router-link>
             <button @click="deleteAlbum" class="btn btn-danger">🗑 Delete Album</button>
+          </div>
+
+          <div class="text-center mt-4">
+            <router-link to="/albums" class="btn btn-secondary">
+              🔙 Back to Albums
+            </router-link>
           </div>
         </div>
       </div>

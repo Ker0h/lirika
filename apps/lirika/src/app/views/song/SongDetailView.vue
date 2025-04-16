@@ -75,8 +75,16 @@ onMounted(fetchSong);
           </ul>
 
           <div class="text-center mt-4 d-flex justify-content-center gap-3">
-            <router-link to="/songs" class="btn btn-primary">⬅ Back to Songs</router-link>
+            <router-link :to="`/songs/${song._id}/edit`" class="btn btn-primary">
+              ✏️ Edit Song
+            </router-link>
             <button @click="deleteSong" class="btn btn-danger">🗑 Delete Song</button>
+          </div>
+
+          <div class="text-center mt-4">
+            <router-link to="/songs" class="btn btn-secondary">
+              🔙 Back to Songs
+            </router-link>
           </div>
         </div>
       </div>

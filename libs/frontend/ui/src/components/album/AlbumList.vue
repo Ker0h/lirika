@@ -23,7 +23,7 @@ const goToDetail = (albumId) => {
           <div class="card-body">
             <h5 class="card-title">{{ album.title }}</h5>
             <p class="card-text text-muted">🎤 Artist: {{ album.artist?.name || "Unknown" }}</p>
-            <p class="card-text">📅 Released: {{ album.releaseDate }}</p>
+            <p class="card-text">📅 Released: {{ album.releaseYear }}</p>
           </div>
         </div>
       </div>

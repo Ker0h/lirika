@@ -3,14 +3,31 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from "mongoose";
 import { Album } from "../schemas/album.schema";
 import { CreateAlbumDto, UpdateAlbumDto } from "@lirika/backend/dto";
+import { Artist } from "../schemas/artist.schema";
 
 @Injectable()
 export class AlbumService {
-  constructor(@InjectModel(Album.name) private albumModel: Model<Album>) {}
+  constructor(
+    @InjectModel(Album.name) private albumModel: Model<Album>,
+    // Inject the Artist model to update the artist's albums
+    @InjectModel(Artist.name) private artistModel: Model<Artist>,
+  ) {}
 
   async create(createAlbumDto: CreateAlbumDto): Promise<Album> {
     const newAlbum = new this.albumModel(createAlbumDto);
-    return newAlbum.save();
+    await newAlbum.save(); // 🔥 this ensures newAlbum._id is generated
+
+    // Then update the artist's albums array
+    const artist = await this.artistModel.findById(createAlbumDto.artist);
+
+    if (!artist) {
+      throw new NotFoundException(`Artist with ID ${createAlbumDto.artist} not found`);
+    }
+
+    artist.albums.push((await newAlbum).id); // Use the generated ID of the new album
+    await artist.save();
+
+    return newAlbum;
   }
 
   async findAll(): Promise<Album[]> {

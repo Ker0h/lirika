@@ -16,12 +16,12 @@ const route = useRoute();
 const error = ref(null);
 const isEditMode = ref(false);
 
-const countries = Object.values(ArtistCountry);
 const genres = Object.values(SongGenre);
 
 // If editing, load artist data
 onMounted(async () => {
   const id = route.params.id;
+
   if (id) {
     isEditMode.value = true;
     try {
@@ -111,7 +111,7 @@ const submitForm = async () => {
         <label class="form-label">Country</label>
         <select v-model="country" class="form-select" required>
           <option disabled value="">Select country</option>
-          <option v-for="(label, code) in ArtistCountry" :key="code" :value="code">
+          <option v-for="(label, code) in ArtistCountry" :key="code" :value="label">
             {{ label }}
           </option>
         </select>

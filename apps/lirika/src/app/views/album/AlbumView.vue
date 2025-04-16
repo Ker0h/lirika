@@ -37,5 +37,10 @@ onMounted(fetchAlbums);
       <h2 class="text-center mb-4">📀 Albums</h2>
       <AlbumList :albums="albums" />
     </div>
+    <div class="text-center mt-4 d-flex justify-content-center gap-3">
+      <router-link to="/albums/new" class="btn btn-primary">
+        ➕ Add New Album
+      </router-link>
+    </div>
   </div>
 </template>

@@ -4,7 +4,7 @@ import {
   IUpsertAlbum
 } from '@lirika/shared/api';
 
-import { IsDateString, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
 
 // ALBUM DTOs
 export class CreateAlbumDto implements ICreateAlbum {
@@ -17,9 +17,9 @@ export class CreateAlbumDto implements ICreateAlbum {
   @IsNotEmpty()
   artist!: string;
 
-  @IsDateString()
+  @IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number;
 
   @IsString()
   @IsNotEmpty()
@@ -33,12 +33,12 @@ export class UpdateAlbumDto implements IUpdateAlbum {
   title?: string;
 
   @IsString()
-  @IsOptional()
-  artist?: string;
+  @IsNotEmpty()
+  artist!: string;
 
-  @IsDateString()
+@IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number;
 }
 
 export class UpsertAlbumDto implements IUpsertAlbum {
@@ -54,9 +54,9 @@ export class UpsertAlbumDto implements IUpsertAlbum {
   @IsNotEmpty()
   artist!: string;
 
-  @IsDateString()
+  @IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number;
 
   @IsString()
   @IsNotEmpty()

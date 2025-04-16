@@ -1,9 +1,9 @@
 import { ICreateSong, IUpdateSong, IUpsertSong, SongGenre } from '@lirika/shared/api';
 
 import {
-  IsDateString,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength
@@ -28,9 +28,9 @@ export class CreateSongDto implements ICreateSong {
   @IsOptional()
   genre?: SongGenre;
 
-  @IsDateString()
+  @IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number;
 
   @IsString()
   @IsNotEmpty()
@@ -58,9 +58,9 @@ export class UpdateSongDto implements IUpdateSong {
   @IsOptional()
   duration?: number;
 
-  @IsDateString()
+  @IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number
 }
 
 export class UpsertSongDto implements IUpsertSong {
@@ -87,9 +87,9 @@ export class UpsertSongDto implements IUpsertSong {
   @IsOptional()
   duration?: number;
 
-  @IsDateString()
+  @IsNumber()
   @IsOptional()
-  releaseDate?: Date;
+  releaseYear?: number;
 
   @IsString()
   @IsNotEmpty()

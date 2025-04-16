@@ -8,7 +8,7 @@ export interface ISong {
   artist: string;
   album?: string; // Optional
   genre?: SongGenre; // Optional
-  releaseDate?: Date; // Optional
+  releaseYear?: number; // Optional
   addedBy: User;
 }
 

@@ -14,8 +14,8 @@ export class Song extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Album' })
   album!: Types.ObjectId;
 
-  @Prop({ type: Date, default: Date.now })
-  releaseDate!: Date;
+  @Prop({ type: Number, })
+  releaseYear!: number;
 
   @Prop({ type: String, default: SongGenre.Pop })
   genre!: SongGenre
@@ -24,7 +24,7 @@ export class Song extends Document {
   createdAt!: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'User', default: '1233455666564' })
-  user!: User;
+  createdBy!: User;
 }
 
 export const SongSchema = SchemaFactory.createForClass(Song);

@@ -37,5 +37,10 @@ onMounted(fetchSongs);
       <h2 class="text-center mb-4">🎵 Songs</h2>
       <SongList :songs="songs" />
     </div>
+    <div class="text-center mt-4 d-flex justify-content-center gap-3">
+      <router-link to="/songs/new" class="btn btn-primary">
+        ➕ Add New Song
+      </router-link>
+    </div>
   </div>
 </template>
