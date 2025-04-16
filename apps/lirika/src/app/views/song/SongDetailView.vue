@@ -9,9 +9,13 @@ const song = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const fetchSong = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/songs/${route.params.id}`);
+    const response = await axios.get(`${apiBaseUrl}/songs/${route.params.id}`);
     song.value = response.data;
   } catch (err) {
     console.error("Error fetching song:", err);
@@ -25,7 +29,8 @@ const deleteSong = async () => {
   if (!confirm("Are you sure you want to delete this song?")) return;
 
   try {
-    await axios.delete(`http://localhost:3000/api/songs/${route.params.id}`);
+    await axios.delete(`${apiBaseUrl}/songs/${route.params.id}`);
+    alert("Song deleted successfully.");
     router.push("/songs");
   } catch (err) {
     console.error("Error deleting song:", err);
@@ -70,7 +75,7 @@ onMounted(fetchSong);
               <strong>🎵 Genre:</strong> {{ song.genre || "Not specified" }}
             </li>
             <li class="list-group-item">
-              <strong>📅 Release Date:</strong> {{ song.releaseDate }}
+              <strong>📅 Year of Release:</strong> {{ song.releaseYear || "Not specified" }}
             </li>
           </ul>
 

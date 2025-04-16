@@ -1,3 +1,36 @@
+<script setup>
+import { ref, computed } from "vue";
+import axios from "axios";
+
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
+const user = ref({
+  username: "",
+  email: "",
+  password: "",
+});
+const confirmPassword = ref("");
+
+const passwordMismatch = computed(() => user.value.password !== confirmPassword.value);
+
+const registerUser = async () => {
+  if (passwordMismatch.value) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  try {
+    await axios.post(`${apiBaseUrl}/users/register`, user.value);
+    alert("Registration successful!");
+  } catch (error) {
+    console.error("Registration failed:", error);
+    alert("Failed to register.");
+  }
+};
+</script>
+
 <template>
   <div class="container mt-5">
     <div class="row justify-content-center">
@@ -40,32 +73,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, computed } from "vue";
-import axios from "axios";
-
-const user = ref({
-  username: "",
-  email: "",
-  password: "",
-});
-const confirmPassword = ref("");
-
-const passwordMismatch = computed(() => user.value.password !== confirmPassword.value);
-
-const registerUser = async () => {
-  if (passwordMismatch.value) {
-    alert("Passwords do not match!");
-    return;
-  }
-
-  try {
-    await axios.post("http://localhost:3000/api/users/register", user.value);
-    alert("Registration successful!");
-  } catch (error) {
-    console.error("Registration failed:", error);
-    alert("Failed to register.");
-  }
-};
-</script>

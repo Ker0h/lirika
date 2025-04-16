@@ -57,6 +57,7 @@
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.16.1",
+    "gh-pages": "^6.3.0",
     "jsdom": "~22.1.0",
     "nx": "20.4.0",
     "postcss": "^8.5.3",

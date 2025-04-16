@@ -18,6 +18,10 @@ const isEditMode = ref(false);
 
 const genres = Object.values(SongGenre);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 // If editing, load artist data
 onMounted(async () => {
   const id = route.params.id;
@@ -25,7 +29,7 @@ onMounted(async () => {
   if (id) {
     isEditMode.value = true;
     try {
-      const { data } = await axios.get(`http://localhost:3000/api/artists/${id}`);
+      const { data } = await axios.get(`${apiBaseUrl}/artists/${id}`);
       name.value = data.name;
       biography.value = data.biography;
       genre.value = data.genre;
@@ -53,9 +57,9 @@ const submitForm = async () => {
 
   try {
     if (isEditMode.value) {
-      await axios.put(`http://localhost:3000/api/artists/${route.params.id}`, payload);
+      await axios.put(`${apiBaseUrl}/artists/${route.params.id}`, payload);
     } else {
-      await axios.post("http://localhost:3000/api/artists", payload);
+      await axios.post(`${apiBaseUrl}/artists`, payload);
     }
 
     router.push("/artists");

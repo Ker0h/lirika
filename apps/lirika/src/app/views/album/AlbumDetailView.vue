@@ -3,6 +3,10 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const route = useRoute();
 const router = useRouter();
 const album = ref(null);
@@ -11,7 +15,7 @@ const error = ref(null);
 
 const fetchAlbum = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/albums/${route.params.id}`);
+    const response = await axios.get(`${apiBaseUrl}/albums/${route.params.id}`);
     album.value = response.data;
   } catch (err) {
     error.value = 'Failed to load album details.';
@@ -25,6 +29,7 @@ const deleteAlbum = async () => {
 
   try {
     await axios.delete(`http://localhost:3000/api/albums/${route.params.id}`);
+    alert("Album deleted successfully.");
     router.push("/albums");
   } catch (err) {
     console.error("Error deleting album:", err);
@@ -62,7 +67,7 @@ onMounted(fetchAlbum);
               <router-link :to="`/songs/${song._id}`">
                 {{ song.title }}
               </router-link>
-              <span class="badge bg-secondary float-end">{{ song.releaseDate }}</span>
+              <span class="badge bg-secondary float-end">{{ song.releaseYear }}</span>
             </li>
           </ul>
 

@@ -8,9 +8,13 @@ const songs = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const fetchSongs = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/songs");
+    const response = await axios.get(`${apiBaseUrl}/songs`);
     songs.value = response.data;
   } catch (err) {
     console.error("Error fetching songs:", err);

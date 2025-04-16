@@ -14,6 +14,10 @@ const loading = ref(true);
 const route = useRoute();
 const router = useRouter();
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const isEditMode = computed(() => !!route.params.id);
 
 const submitForm = async () => {
@@ -28,9 +32,9 @@ const submitForm = async () => {
     };
 
     if (isEditMode.value) {
-      await axios.put(`http://localhost:3000/api/albums/${route.params.id}`, payload);
+      await axios.put(`${apiBaseUrl}/albums/${route.params.id}`, payload);
     } else {
-      await axios.post("http://localhost:3000/api/albums", payload);
+      await axios.post(`${apiBaseUrl}/albums`, payload);
     }
 
     router.push("/albums");
@@ -43,12 +47,12 @@ const submitForm = async () => {
 onMounted(async () => {
   try {
     // Fetch all artists
-    const artistResponse = await axios.get("http://localhost:3000/api/artists");
+    const artistResponse = await axios.get(`${apiBaseUrl}/artists`);
     artists.value = artistResponse.data;
 
     // If editing, load album data
     if (isEditMode.value) {
-      const albumResponse = await axios.get(`http://localhost:3000/api/albums/${route.params.id}`);
+      const albumResponse = await axios.get(`${apiBaseUrl}/albums/${route.params.id}`);
       const album = albumResponse.data;
 
       title.value = album.title;

@@ -9,9 +9,13 @@ const artist = ref(null)
 const loading = ref(true);
 const error = ref(null);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const fetchArtist = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/artists/${route.params.id}`);
+    const response = await axios.get(`${apiBaseUrl}/artists/${route.params.id}`);
     artist.value = response.data;
   } catch (err) {
     console.error("Error fetching artist:", err);

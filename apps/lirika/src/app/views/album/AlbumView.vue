@@ -8,9 +8,13 @@ const albums = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const fetchAlbums = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/albums");
+    const response = await axios.get(`${apiBaseUrl}/albums`);
     albums.value = response.data;
   } catch (err) {
     console.error("Error fetching albums:", err);

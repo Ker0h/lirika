@@ -23,6 +23,10 @@ const router = useRouter();
 
 const genres = Object.values(SongGenre);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const isEditMode = computed(() => !!route.params.id);
 
 const submitForm = async () => {
@@ -39,9 +43,9 @@ const submitForm = async () => {
     };
 
     if (isEditMode.value) {
-      await axios.put(`http://localhost:3000/api/songs/${route.params.id}`, payload);
+      await axios.put(`${apiBaseUrl}/songs/${route.params.id}`, payload);
     } else {
-      await axios.post("http://localhost:3000/api/songs", payload);
+      await axios.post(`${apiBaseUrl}/songs`, payload);
     }
 
     router.push("/songs");
@@ -54,15 +58,15 @@ const submitForm = async () => {
 onMounted(async () => {
   try {
     const [artistResponse, albumResponse] = await Promise.all([
-      axios.get("http://localhost:3000/api/artists"),
-      axios.get("http://localhost:3000/api/albums"),
+      axios.get(`${apiBaseUrl}/artists`),
+      axios.get(`${apiBaseUrl}/albums`),
     ]);
 
     artists.value = artistResponse.data;
     albums.value = albumResponse.data;
 
     if (isEditMode.value) {
-      const songResponse = await axios.get(`http://localhost:3000/api/songs/${route.params.id}`);
+      const songResponse = await axios.get(`${apiBaseUrl}/songs/${route.params.id}`);
       const song = songResponse.data;
 
       title.value = song.title;

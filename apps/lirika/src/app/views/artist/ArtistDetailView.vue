@@ -9,6 +9,10 @@ const route = useRoute();
 const router = useRouter();
 const artist = ref(null);
 
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
+
 const countryName = computed(() => {
   if (!artist.value || !artist.value.country) return "Not specified";
   return ArtistCountry[artist.value.country] || artist.value.country;
@@ -19,7 +23,7 @@ const error = ref(null);
 
 const fetchArtist = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/artists/${route.params.id}`);
+    const response = await axios.get(`${apiBaseUrl}/artists/${route.params.id}`);
     artist.value = response.data;
   } catch (err) {
     console.error("Error fetching artist:", err);
@@ -33,7 +37,8 @@ const deleteArtist = async () => {
   if (!confirm("Are you sure you want to delete this artist?")) return;
 
   try {
-    await axios.delete(`http://localhost:3000/api/artists/${route.params.id}`);
+    await axios.delete(`${apiBaseUrl}/artists/${route.params.id}`);
+    alert("Artist deleted successfully.");
     router.push("/artists");
   } catch (err) {
     console.error("Error deleting artist:", err);
