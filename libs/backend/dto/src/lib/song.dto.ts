@@ -9,6 +9,8 @@ import {
   MaxLength
 } from 'class-validator';
 
+import { Types } from 'mongoose';
+
 // Song DTO's
 export class CreateSongDto implements ICreateSong {
   @IsString()
@@ -32,9 +34,8 @@ export class CreateSongDto implements ICreateSong {
   @IsOptional()
   releaseYear?: number;
 
-  @IsString()
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
 }
 
 export class UpdateSongDto implements IUpdateSong {
@@ -91,7 +92,6 @@ export class UpsertSongDto implements IUpsertSong {
   @IsOptional()
   releaseYear?: number;
 
-  @IsString()
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
 }

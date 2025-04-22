@@ -6,7 +6,9 @@ import {
   NotFoundException,
   Param,
   Post,
-  Put
+  Query,
+  Put,
+  Logger
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@lirika/backend/dto';
@@ -24,7 +26,12 @@ export class AlbumController {
 
   // GET all albums
   @Get()
-  async findAll(): Promise<Album[]> {
+  async findAll(@Query('createdBy') createdBy: string): Promise<Album[]> {
+    if (createdBy) {
+      const albums = await this.albumService.findByUser(createdBy);
+      Logger.debug(albums);
+      return albums;
+    }
     return this.albumService.findAll();
   }
 

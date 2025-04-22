@@ -22,8 +22,13 @@
         </ul>
 
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!isAuthenticated">
             <router-link class="nav-link" to="/register">Register</router-link>
+          </li>
+          <li v-if="userId" class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'UserProfile', params: { id: userId } }">
+              My Profile
+            </router-link>
           </li>
           <li class="nav-item" v-if="isAuthenticated">
             <button class="btn btn-danger" @click="logout">Logout</button>
@@ -42,10 +47,13 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const isAuthenticated = ref(!!localStorage.getItem('token')); // Check if user is logged in
+const isAuthenticated = ref(!!localStorage.getItem('token'));
+const userId = ref(localStorage.getItem('userId'));
 
 const logout = () => {
   localStorage.removeItem('token'); // Remove token
+  localStorage.removeItem('userId'); // Remove user ID
+  localStorage.removeItem('role'); // Remove user role
   isAuthenticated.value = false; // Update state
   router.push('/login'); // Redirect to login page
 };

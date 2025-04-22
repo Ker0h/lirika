@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Album } from "../schemas/album.schema";
 import { CreateAlbumDto, UpdateAlbumDto } from "@lirika/backend/dto";
 import { Artist } from "../schemas/artist.schema";
@@ -14,7 +14,13 @@ export class AlbumService {
   ) {}
 
   async create(createAlbumDto: CreateAlbumDto): Promise<Album> {
-    const newAlbum = new this.albumModel(createAlbumDto);
+     // Cast the createdBy field to a proper ObjectId
+  const albumData = {
+    ...createAlbumDto,
+    createdBy: new Types.ObjectId(createAlbumDto.createdBy),
+  };
+
+    const newAlbum = new this.albumModel(albumData);
     await newAlbum.save(); // 🔥 this ensures newAlbum._id is generated
 
     // Then update the artist's albums array
@@ -31,10 +37,24 @@ export class AlbumService {
   }
 
   async findAll(): Promise<Album[]> {
-    return this.albumModel.find()
+    const albums = await this.albumModel.find()
     .populate('artist')
     .populate('songs')
     .exec();
+
+    Logger.debug("All albums", albums);
+    return albums;
+  }
+
+  async findByUser(userId: string): Promise<Album[]> {
+    const albums = await this.albumModel
+      .find({ createdBy: new Types.ObjectId(userId) })
+      .populate('artist')
+      .populate('songs')
+      .exec();
+
+    Logger.debug(`Albums of user: ${userId}`, albums);
+    return albums;
   }
 
   async findOne(id: string): Promise<Album> {
@@ -47,6 +67,7 @@ export class AlbumService {
       throw new NotFoundException(`Album with ID: ${id} not found`);
     }
 
+    Logger.debug(`Album with ID: ${id}`, album);
     return album;
   }
 

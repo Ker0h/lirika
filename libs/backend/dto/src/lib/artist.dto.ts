@@ -4,6 +4,8 @@ import {
   IUpsertArtist
 } from '@lirika/shared/api';
 
+import { Types } from 'mongoose';
+
 import { IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 // ARTIST DTOs
@@ -30,9 +32,8 @@ export class CreateArtistDto implements ICreateArtist {
   @IsOptional()
   country?: string;
 
-  @IsString()
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
 }
 
 export class UpdateArtistDto implements IUpdateArtist {
@@ -85,7 +86,6 @@ export class UpsertArtistDto implements IUpsertArtist {
   @IsOptional()
   country?: string;
 
-  @IsString()
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
 }

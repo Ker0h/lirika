@@ -4,6 +4,8 @@ import {
   IUpsertAlbum
 } from '@lirika/shared/api';
 
+import { Types } from 'mongoose';
+
 import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
 
 // ALBUM DTOs
@@ -21,9 +23,9 @@ export class CreateAlbumDto implements ICreateAlbum {
   @IsOptional()
   releaseYear?: number;
 
-  @IsString()
+
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
 }
 
 export class UpdateAlbumDto implements IUpdateAlbum {
@@ -58,7 +60,7 @@ export class UpsertAlbumDto implements IUpsertAlbum {
   @IsOptional()
   releaseYear?: number;
 
-  @IsString()
   @IsNotEmpty()
-  addedBy!: string;
+  createdBy!: Types.ObjectId;
+
 }

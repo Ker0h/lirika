@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Artist } from "../schemas/artist.schema";
 import { CreateArtistDto, UpdateArtistDto } from "@lirika/backend/dto";
 import path = require("path");
@@ -10,7 +10,13 @@ export class ArtistService {
   constructor(@InjectModel(Artist.name) private artistModel: Model<Artist>) {}
 
   async create(createArtistDto: CreateArtistDto): Promise<Artist> {
-    const newArtist = new this.artistModel(createArtistDto);
+     // Cast the createdBy field to a proper ObjectId
+  const artistData = {
+    ...createArtistDto,
+    createdBy: new Types.ObjectId(createArtistDto.createdBy),
+  };
+
+    const newArtist = new this.artistModel(artistData);
     return newArtist.save();
   }
 
@@ -32,6 +38,15 @@ export class ArtistService {
       })
     .exec();
   }
+
+
+async findByUser(userId: string) {
+  return this.artistModel
+    .find({ createdBy: new Types.ObjectId(userId) })
+    .populate('songs')
+    .populate('albums')
+    .exec();
+}
 
   async findOne(id: string): Promise<Artist> {
     const artist = await this.artistModel.findById(id)

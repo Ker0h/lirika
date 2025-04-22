@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Song } from "../schemas/song.schema";
 import { CreateSongDto, UpdateSongDto, UpsertSongDto } from "@lirika/backend/dto";
 import { Artist } from "../schemas/artist.schema";
@@ -15,7 +15,13 @@ export class SongService {
   ) {}
 
   async create(createSongDto: CreateSongDto): Promise<Song> {
-        const newSong = new this.songModel(createSongDto);
+         // Cast the createdBy field to a proper ObjectId
+  const songData = {
+    ...createSongDto,
+    createdBy: new Types.ObjectId(createSongDto.createdBy),
+  };
+
+        const newSong = new this.songModel(songData);
         await newSong.save();
 
         // Then update the album's song array
@@ -47,6 +53,14 @@ export class SongService {
     .populate('album')
     .exec();
   }
+
+async findByUser(userId: string) {
+  return this.songModel
+    .find({ createdBy: new Types.ObjectId(userId) })
+    .populate('artist')
+    .populate('album')
+    .exec();
+}
 
   async findOne(id: string): Promise<Song> {
     const song = await this.songModel.findById(id)

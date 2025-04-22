@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
 import { SongGenre, ArtistCountry } from "@lirika/shared/api";
+import { Types } from "mongoose";
 
 const name = ref("");
 const biography = ref("");
@@ -15,6 +16,7 @@ const router = useRouter();
 const route = useRoute();
 const error = ref(null);
 const isEditMode = ref(false);
+const userId = localStorage.getItem("userId");
 
 const genres = Object.values(SongGenre);
 
@@ -53,6 +55,7 @@ const submitForm = async () => {
     genre: genre.value,
     debutYear: debutYear.value,
     country: country.value,
+    createdBy: new Types.ObjectId(userId),
   };
 
   try {

@@ -8,10 +8,11 @@ export interface IUser {
   email: string;
   password: string;
   role: UserRole;
+  registeredAt: Date;
 }
 
 export type ICreateUser = Pick<IUser, 'email' | 'password'> & { role?: UserRole };
 
-export type IUpdateUser = Partial<Omit<IUser, 'id'>>;
+export type IUpdateUser = Partial<Omit<IUser, 'id' | 'registeredAt'>>;
 
-export type IUpsertUser = IUser;
+export type IUpsertUser = Partial<Omit<IUser, 'registeredAt'>> & { id: string };

@@ -2,27 +2,38 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
+import { Types } from "mongoose";
 
 import { SongGenre } from "@lirika/shared/api";
 
+// Form fields
 const title = ref("");
 const genre = ref("");
 const releaseYear = ref("");
 const artistId = ref("");
 const albumId = ref("");
 
+// Data for dropdowns
 const artists = ref([]);
 const albums = ref([]);
 
+// Form validation
 const formValidated = ref(false);
 const formRef = ref(null);
 const error = ref(null);
 const loading = ref(true);
+
+// UserId from local storage
+const userId = localStorage.getItem("userId");
+
+// Form state
 const route = useRoute();
 const router = useRouter();
 
+// Genres
 const genres = Object.values(SongGenre);
 
+// API base URL
 const apiBaseUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_PROD_URL
   : import.meta.env.VITE_API_DEV_URL;
@@ -40,6 +51,7 @@ const submitForm = async () => {
       releaseYear: releaseYear.value,
       artist: artistId.value,
       album: albumId.value,
+      createdBy: new Types.ObjectId(userId),
     };
 
     if (isEditMode.value) {

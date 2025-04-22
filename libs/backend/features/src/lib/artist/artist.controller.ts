@@ -6,7 +6,9 @@ import {
   NotFoundException,
   Param,
   Post,
-  Put
+  Query,
+  Put,
+  Logger
 } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto, UpdateArtistDto } from '@lirika/backend/dto';
@@ -24,7 +26,12 @@ export class ArtistController {
 
   // GET all artists
   @Get()
-  async findAll(): Promise<Artist[]> {
+  async findAll(@Query('createdBy') createdBy?: string) {
+    if (createdBy) {
+      const artists = await this.artistService.findByUser(createdBy);
+      Logger.debug(artists);
+      return artists;
+    }
     return this.artistService.findAll();
   }
 

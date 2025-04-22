@@ -18,13 +18,23 @@ const login = async () => {
       email: email.value,
       password: password.value,
     });
-    isAuthenticated.value = true;
+
+    // Store token
     localStorage.setItem('token', response.data.access_token);
-    router.push('/dashboard'); // Redirect after login
+    // Store user ID
+    localStorage.setItem('userId', response.data._id);
+    // Store user role
+    localStorage.setItem('role', response.data.role);
+
+    console.log('Login successful:', response.data);
+
+    // Redirect to user profile page
+    router.push(`/profile/${localStorage.getItem('userId')}`);
   } catch (error) {
     errorMessage.value = 'Invalid credentials';
   }
 };
+
 </script>
 
 <template>

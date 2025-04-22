@@ -12,12 +12,14 @@ import SongDetailView from "../app/views/song/SongDetailView.vue";
 import ArtistSongsView from "../app/views/song/ArtistSongsView.vue";
 import RegisterUserView from "../app/views/user/RegisterUserView.vue";
 import LoginView from "../app/views/user/LoginView.vue";
+import UserProfile from "../app/views/user/UserProfile.vue";
 import SongFormView from "../app/views/song/SongFormView.vue";
 
 const routes = [
   { path: "/", component: HomeView, name: "home" },
   { path: "/register", component: RegisterUserView, name: "register" },
   { path: "/login", component: LoginView, name: "login" },
+  { path: "/profile/:id", component: UserProfile, name: "UserProfile", props: true },
   { path: "/songs", component: SongView, name: "songs" },
   { path: '/songs/:id', component: SongDetailView, name: "SongDetail", props: true },
   { path: "/songs/new", component: SongFormView, name: "SongCreate" },
@@ -36,7 +38,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/lirika/'),
   routes,
 });
 

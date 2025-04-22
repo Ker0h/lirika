@@ -1,15 +1,16 @@
-type User = string; // Assuming albums are added by a user
+import { Types } from 'mongoose';
+type User = Types.ObjectId;
 
 export interface IAlbum {
   id: string;
   title: string;
   artist: string;
   releaseYear?: number;
-  addedBy: User;
+  createdBy: User;
 }
 
-export type ICreateAlbum = Omit<IAlbum, 'id' | 'addedBy'> & { addedBy: User };
+export type ICreateAlbum = Omit<IAlbum, 'id' | 'createdBy'> & { createdBy: User };
 
-export type IUpdateAlbum = Partial<Omit<IAlbum, 'id' | 'addedBy'>>;
+export type IUpdateAlbum = Partial<Omit<IAlbum, 'id' | 'createdBy'>>;
 
 export type IUpsertAlbum = IAlbum;

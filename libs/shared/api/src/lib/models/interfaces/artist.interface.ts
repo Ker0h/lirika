@@ -1,4 +1,5 @@
-type User = string; // Assuming artists are added by a user
+import { Types } from 'mongoose';
+type User = Types.ObjectId;
 
 export interface IArtist {
   id: string;
@@ -9,11 +10,11 @@ export interface IArtist {
   country?: string;
   albums?: string[];
   songs?: string[];
-  addedBy: User;
+  createdBy: User;
 }
 
 export type ICreateArtist = Omit<IArtist, 'id'>;
 
-export type IUpdateArtist = Partial<Omit<IArtist, 'id' | 'addedBy'>>;
+export type IUpdateArtist = Partial<Omit<IArtist, 'id' | 'createdBy'>>;
 
 export type IUpsertArtist = IArtist;

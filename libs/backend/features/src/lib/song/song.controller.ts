@@ -4,9 +4,11 @@ import {
   Delete,
   Get,
   NotFoundException,
+  Query,
   Param,
   Post,
-  Put
+  Put,
+  Logger
 } from '@nestjs/common';
 import { SongService } from './song.service';
 import { CreateSongDto, UpdateSongDto } from '@lirika/backend/dto';
@@ -24,15 +26,21 @@ export class SongController {
 
   // GET all songs
   @Get()
-  async findAll(): Promise<Song[]> {
-    return this.songService.findAll();
+  async findAll(@Query('createdBy') createdBy?: string) {
+  if (createdBy) {
+    const songs = await this.songService.findByUser(createdBy);
+    Logger.debug(songs);
+    return songs;
   }
+  return this.songService.findAll();
+}
 
   // GET a single song by ID
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Song> {
     return this.songService.findOne(id);
   }
+
 
   // UPDATE a song
   @Put(':id')

@@ -1,10 +1,13 @@
 <script setup>
 import { ref, computed } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 const apiBaseUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_PROD_URL
   : import.meta.env.VITE_API_DEV_URL;
+
+const router = useRouter();
 
 const user = ref({
   username: "",
@@ -24,6 +27,7 @@ const registerUser = async () => {
   try {
     await axios.post(`${apiBaseUrl}/users/register`, user.value);
     alert("Registration successful!");
+    router.push("/login");
   } catch (error) {
     console.error("Registration failed:", error);
     alert("Failed to register.");
