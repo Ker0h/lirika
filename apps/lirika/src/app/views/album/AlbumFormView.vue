@@ -26,6 +26,11 @@ const submitForm = async () => {
   formValidated.value = true;
   if (!formRef.value.checkValidity()) return;
 
+  if (!userId) {
+    error.value = "User not authenticated. Please log in.";
+    return;
+  }
+
   try {
     const payload = {
       title: title.value,

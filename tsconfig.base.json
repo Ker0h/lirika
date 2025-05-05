@@ -15,10 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lirika/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@lirika/backend/dto": ["libs/backend/dto/src/index.ts"],
       "@lirika/backend/features": ["libs/backend/features/src/index.ts"],
       "@lirika/features": ["libs/backend/features/src/index.ts"],
       "@lirika/shared/api": ["libs/shared/api/src/index.ts"],
+      "@lirika/shared/auth": ["backend/src/index.ts"],
       "@lirika/ui": ["libs/frontend/ui/src/index.ts"]
     }
   },

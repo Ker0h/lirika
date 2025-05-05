@@ -3,22 +3,24 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Post,
   Query,
   Put,
-  Logger
+  Logger,
+  UseGuards
 } from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto, UpdateArtistDto } from '@lirika/backend/dto';
 import { Artist } from '../schemas/artist.schema';
+import { JwtAuthGuard } from '@lirika/backend/auth';
 
 @Controller('artists')
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   // CREATE a new artist
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
     return this.artistService.create(createArtistDto);

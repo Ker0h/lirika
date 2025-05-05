@@ -25,7 +25,7 @@
           <li class="nav-item" v-if="!isAuthenticated">
             <router-link class="nav-link" to="/register">Register</router-link>
           </li>
-          <li v-if="userId" class="nav-item">
+          <li v-if="isAuthenticated && userId" class="nav-item">
             <router-link class="nav-link" :to="{ name: 'UserProfile', params: { id: userId } }">
               My Profile
             </router-link>
@@ -45,10 +45,16 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
 const router = useRouter();
-const isAuthenticated = ref(!!localStorage.getItem('token'));
-const userId = ref(localStorage.getItem('userId'));
+const isAuthenticated = ref(false);
+const userId = ref(null);
+
+onMounted(() => {
+  isAuthenticated.value = !!localStorage.getItem('token');
+  userId.value = localStorage.getItem('userId');
+});
 
 const logout = () => {
   localStorage.removeItem('token'); // Remove token

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 
@@ -8,6 +8,8 @@ const router = useRouter();
 const song = ref(null);
 const loading = ref(true);
 const error = ref(null);
+
+const currentUserId = localStorage.getItem("userId");
 
 const apiBaseUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_PROD_URL
@@ -38,8 +40,11 @@ const deleteSong = async () => {
   }
 };
 
+const isOwner = computed(() => song.value?.createdBy === currentUserId);
+
 onMounted(fetchSong);
 </script>
+
 
 <template>
   <div class="container mt-4">
@@ -79,7 +84,7 @@ onMounted(fetchSong);
             </li>
           </ul>
 
-          <div class="text-center mt-4 d-flex justify-content-center gap-3">
+          <div v-if="isOwner" class="text-center mt-4 d-flex justify-content-center gap-3">
             <router-link :to="`/songs/${song._id}/edit`" class="btn btn-primary">
               ✏️ Edit Song
             </router-link>
