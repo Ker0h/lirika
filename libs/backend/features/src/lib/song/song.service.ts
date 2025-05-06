@@ -26,6 +26,8 @@ export class SongService {
         const newSong = new this.songModel(songData);
         await newSong.save();
 
+        const songId = new Types.ObjectId((await newSong).id);
+
         // Then update the album's song array
         const album = await this.albumModel.findById(createSongDto.album);
 
@@ -33,7 +35,7 @@ export class SongService {
           throw new NotFoundException(`Album with ID ${createSongDto.album} not found`);
         }
 
-        album.songs.push((await newSong).id); // Use the generated ID of the new album
+        album.songs.push(songId); // Use the generated ID of the new album
         await album.save();
 
         // Then update the artist's song array
@@ -41,7 +43,7 @@ export class SongService {
         if (!artist) {
           throw new NotFoundException(`Artist with ID ${createSongDto.artist} not found`);
         }
-        artist.songs.push((await newSong).id); // Use the generated ID of the new album
+        artist.songs.push(songId); // Use the generated ID of the new album
         await artist.save();
 
         return newSong;
@@ -87,6 +89,24 @@ async findByUser(userId: string) {
   }
 
     async delete(id: string): Promise<void> {
+    // revome the song from the album's songs array
+    const song = await this.songModel.findById(id);
+    if (!song) {
+      throw new NotFoundException(`Song with ID ${id} not found`);
+    }
+    const album = await this.albumModel.findById(song.album);
+    if (album) {
+      album.songs = album.songs.filter((songId) => songId.toString() !== id);
+      await album.save();
+    }
+
+    // remove the song from the artist's songs array
+    const artist = await this.artistModel.findById(song.artist);
+    if (artist) {
+      artist.songs = artist.songs.filter((songId) => songId.toString() !== id);
+      await artist.save();
+    }
+    // Finally, delete the song
     const result = await this.songModel.findByIdAndDelete(id).exec();
     if (!result) {
       throw new NotFoundException(`Song with ID ${id} not found`);

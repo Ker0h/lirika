@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, Types } from "mongoose";
 import { Album } from "../schemas/album.schema";
+import { Song } from "../schemas/song.schema";
 import { CreateAlbumDto, UpdateAlbumDto } from "@lirika/backend/dto";
 import { Artist } from "../schemas/artist.schema";
 
@@ -11,6 +12,8 @@ export class AlbumService {
     @InjectModel(Album.name) private albumModel: Model<Album>,
     // Inject the Artist model to update the artist's albums
     @InjectModel(Artist.name) private artistModel: Model<Artist>,
+    // Inject the Song model to update the album's songs
+    @InjectModel(Song.name) private songModel: Model<Song>,
   ) {}
 
   async create(createAlbumDto: CreateAlbumDto, userId: string): Promise<Album> {
@@ -31,7 +34,9 @@ export class AlbumService {
       throw new NotFoundException(`Artist with ID ${createAlbumDto.artist} not found`);
     }
 
-    artist.albums.push((await newAlbum).id); // Use the generated ID of the new album
+    // Cast the album ID to ObjectId
+    const albumId = new Types.ObjectId((await newAlbum).id);
+    artist.albums.push(albumId); // Use the generated ID of the new album
     await artist.save();
 
     return newAlbum;
@@ -91,10 +96,36 @@ export class AlbumService {
     return updatedAlbum;
   }
 
-    async delete(id: string): Promise<void> {
-    const result = await this.albumModel.findByIdAndDelete(id).exec();
-    if (!result) {
-      throw new NotFoundException(`Album with ID ${id} not found`);
-    }
+async delete(id: string): Promise<void> {
+  // Find the album
+  const album = await this.albumModel.findById(id);
+  if (!album) {
+    throw new NotFoundException(`Album with ID ${id} not found`);
   }
+
+  // Set album field to null for all songs referencing this album
+
+  await this.songModel.updateMany(
+    { album: album._id },
+    { $set: { album: null } }
+  );
+
+  // Remove album from the artist's albums array
+  const artist = await this.artistModel.findById(album.artist);
+  if (!artist) {
+    throw new NotFoundException(`Artist with ID ${album.artist} not found`);
+  }
+
+  artist.albums = artist.albums.filter(
+    (albumId) => albumId.toString() !== id
+  );
+  // Save the artist after removing the album
+  await artist.save();
+
+  // Finally, delete the album
+  const result = await this.albumModel.findByIdAndDelete(id).exec();
+  if (!result) {
+    throw new NotFoundException(`Album with ID ${id} not found`);
+  }
+}
 }
