@@ -46,6 +46,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
+import axios from 'axios';
 
 const router = useRouter();
 const isAuthenticated = ref(false);
@@ -60,6 +61,7 @@ const logout = () => {
   localStorage.removeItem('token'); // Remove token
   localStorage.removeItem('userId'); // Remove user ID
   localStorage.removeItem('role'); // Remove user role
+  delete axios.defaults.headers.common["Authorization"]; // Remove authorization header
   isAuthenticated.value = false; // Update state
   router.push('/login'); // Redirect to login page
 };

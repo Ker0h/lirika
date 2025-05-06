@@ -13,6 +13,14 @@ const album = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common["Authorization"];
+}
+
+
 const fetchAlbum = async () => {
   try {
     const response = await axios.get(`${apiBaseUrl}/albums/${route.params.id}`);

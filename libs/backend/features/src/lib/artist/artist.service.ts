@@ -9,11 +9,11 @@ import path = require("path");
 export class ArtistService {
   constructor(@InjectModel(Artist.name) private artistModel: Model<Artist>) {}
 
-  async create(createArtistDto: CreateArtistDto): Promise<Artist> {
+  async create(createArtistDto: CreateArtistDto, userId: string): Promise<Artist> {
      // Cast the createdBy field to a proper ObjectId
   const artistData = {
     ...createArtistDto,
-    createdBy: new Types.ObjectId(createArtistDto.createdBy),
+    createdBy: new Types.ObjectId(userId), // Ensure createdBy is an ObjectId
   };
 
     const newArtist = new this.artistModel(artistData);

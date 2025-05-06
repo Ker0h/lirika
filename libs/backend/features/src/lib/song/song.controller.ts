@@ -8,12 +8,14 @@ import {
   Post,
   Put,
   Logger,
-  UseGuards
+  UseGuards,
+  Request
 } from '@nestjs/common';
 import { SongService } from './song.service';
 import { CreateSongDto, UpdateSongDto } from '@lirika/backend/dto';
 import { Song } from '../schemas/song.schema';
 import { JwtAuthGuard } from '@lirika/backend/auth';
+import { AuthenticatedRequest } from '@lirika/shared/api';
 
 @Controller('songs')
 export class SongController {
@@ -22,8 +24,9 @@ export class SongController {
   // CREATE a new song
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createSongDto: CreateSongDto): Promise<Song> {
-    return this.songService.create(createSongDto);
+  async create(@Request() req: AuthenticatedRequest, @Body() createSongDto: CreateSongDto): Promise<Song> {
+    const userId = req.user.userId; // Extract userId from the request object
+    return this.songService.create(createSongDto, userId);
   }
 
   // GET all songs
@@ -31,7 +34,6 @@ export class SongController {
   async findAll(@Query('createdBy') createdBy?: string) {
   if (createdBy) {
     const songs = await this.songService.findByUser(createdBy);
-    Logger.debug(songs);
     return songs;
   }
   return this.songService.findAll();
@@ -45,6 +47,7 @@ export class SongController {
 
 
   // UPDATE a song
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -54,6 +57,7 @@ export class SongController {
   }
 
   // DELETE a song
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<void> {
     return this.songService.delete(id);

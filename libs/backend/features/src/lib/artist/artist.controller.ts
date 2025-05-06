@@ -1,4 +1,5 @@
 import {
+  Request,
   Body,
   Controller,
   Delete,
@@ -14,6 +15,7 @@ import { ArtistService } from './artist.service';
 import { CreateArtistDto, UpdateArtistDto } from '@lirika/backend/dto';
 import { Artist } from '../schemas/artist.schema';
 import { JwtAuthGuard } from '@lirika/backend/auth';
+import { AuthenticatedRequest } from '@lirika/shared/api';
 
 @Controller('artists')
 export class ArtistController {
@@ -22,8 +24,9 @@ export class ArtistController {
   // CREATE a new artist
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createArtistDto: CreateArtistDto): Promise<Artist> {
-    return this.artistService.create(createArtistDto);
+  async create(@Request() req: AuthenticatedRequest, @Body() createArtistDto: CreateArtistDto): Promise<Artist> {
+    const userId = req.user.userId; // Extract userId from the request object
+    return this.artistService.create(createArtistDto, userId);
   }
 
   // GET all artists
@@ -31,7 +34,6 @@ export class ArtistController {
   async findAll(@Query('createdBy') createdBy?: string) {
     if (createdBy) {
       const artists = await this.artistService.findByUser(createdBy);
-      Logger.debug(artists);
       return artists;
     }
     return this.artistService.findAll();

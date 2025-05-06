@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export enum UserRole {
   ADMIN = 'admin',
   USER = 'user'
@@ -10,6 +12,17 @@ export interface IUser {
   role: UserRole;
   registeredAt: Date;
 }
+
+interface JwtUser {
+  userId: string;
+  username: string;
+  role: string;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user: JwtUser;
+}
+
 
 export type ICreateUser = Pick<IUser, 'email' | 'password'> & { role?: UserRole };
 

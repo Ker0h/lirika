@@ -13,11 +13,12 @@ export class AlbumService {
     @InjectModel(Artist.name) private artistModel: Model<Artist>,
   ) {}
 
-  async create(createAlbumDto: CreateAlbumDto): Promise<Album> {
+  async create(createAlbumDto: CreateAlbumDto, userId: string): Promise<Album> {
      // Cast the createdBy field to a proper ObjectId
   const albumData = {
     ...createAlbumDto,
-    createdBy: new Types.ObjectId(createAlbumDto.createdBy),
+    artist: new Types.ObjectId(createAlbumDto.artist), // Ensure artist is an ObjectId
+    createdBy: new Types.ObjectId(userId), // Ensure createdBy is an ObjectId
   };
 
     const newAlbum = new this.albumModel(albumData);
@@ -53,7 +54,16 @@ export class AlbumService {
       .populate('songs')
       .exec();
 
-    Logger.debug(`Albums of user: ${userId}`, albums);
+    return albums;
+  }
+
+  async findByArtist(artistId: string): Promise<Album[]> {
+    const albums = await this.albumModel
+      .find({ artist: new Types.ObjectId(artistId) })
+      .populate('artist')
+      .populate('songs')
+      .exec();
+
     return albums;
   }
 

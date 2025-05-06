@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { Types } from "mongoose";
+import { watch } from "vue";
 
 import { SongGenre } from "@lirika/shared/api";
 
@@ -40,11 +41,18 @@ const apiBaseUrl = import.meta.env.PROD
 
 const isEditMode = computed(() => !!route.params.id);
 
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common["Authorization"];
+}
+
 const submitForm = async () => {
   formValidated.value = true;
   if (!formRef.value.checkValidity()) return;
 
-  if(!userId) {
+  if (!userId) {
     error.value = "User not authenticated. Please log in.";
     return;
   }
@@ -74,13 +82,36 @@ const submitForm = async () => {
 
 onMounted(async () => {
   try {
-    const [artistResponse, albumResponse] = await Promise.all([
-      axios.get(`${apiBaseUrl}/artists`),
-      axios.get(`${apiBaseUrl}/albums`),
-    ]);
-
+    const artistResponse = await axios.get(`${apiBaseUrl}/artists`);
     artists.value = artistResponse.data;
-    albums.value = albumResponse.data;
+
+    // Watch for changes in artistId to load albums
+    watch(artistId, async (newArtistId) => {
+      if (!newArtistId) {
+        albums.value = [];
+        albumId.value = "";
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${apiBaseUrl}/albums?artist=${newArtistId}`);
+        albums.value = response.data;
+
+        // If there's only one album, set it as the default
+        if (albums.value.length === 1) {
+          albumId.value = albums.value[0]._id;
+        }
+
+        // If current albumId isn't part of new list, clear it
+        if (!albums.value.find((a) => a._id === albumId.value)) {
+          albumId.value = "";
+        }
+      } catch (err) {
+        console.error("Error loading albums for artist:", err);
+        error.value = "Failed to load albums for selected artist.";
+      }
+    });
+
 
     if (isEditMode.value) {
       const songResponse = await axios.get(`${apiBaseUrl}/songs/${route.params.id}`);

@@ -1,4 +1,5 @@
 import {
+  Request,
   Body,
   Controller,
   Delete,
@@ -14,6 +15,7 @@ import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '@lirika/backend/dto';
 import { Album } from '../schemas/album.schema';
 import { JwtAuthGuard } from '@lirika/backend/auth';
+import { AuthenticatedRequest } from '@lirika/shared/api';
 
 @Controller('albums')
 export class AlbumController {
@@ -22,16 +24,24 @@ export class AlbumController {
   // CREATE a new album
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createAlbumDto: CreateAlbumDto): Promise<Album> {
-    return this.albumService.create(createAlbumDto);
+  async create(@Request() req: AuthenticatedRequest, @Body() createAlbumDto: CreateAlbumDto): Promise<Album> {
+    const userId = req.user.userId; // Extract userId from the request object
+    return this.albumService.create(createAlbumDto, userId);
   }
 
   // GET all albums
   @Get()
-  async findAll(@Query('createdBy') createdBy: string): Promise<Album[]> {
+  async findAll(
+    @Query('createdBy') createdBy?: string,
+    @Query('artist') artistId?: string
+  ): Promise<Album[]> {
     if (createdBy) {
       const albums = await this.albumService.findByUser(createdBy);
-      Logger.debug(albums);
+      return albums;
+    }
+
+    if (artistId) {
+      const albums = await this.albumService.findByArtist(artistId);
       return albums;
     }
     return this.albumService.findAll();

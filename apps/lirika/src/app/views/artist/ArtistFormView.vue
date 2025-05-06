@@ -44,6 +44,14 @@ onMounted(async () => {
   }
 });
 
+// Set up axios headers for authentication
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common["Authorization"];
+}
+
 const submitForm = async () => {
   formValidated.value = true;
 

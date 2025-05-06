@@ -13,6 +13,13 @@ const apiBaseUrl = import.meta.env.PROD
   ? import.meta.env.VITE_API_PROD_URL
   : import.meta.env.VITE_API_DEV_URL;
 
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+} else {
+  delete axios.defaults.headers.common["Authorization"];
+}
+
 const countryName = computed(() => {
   if (!artist.value || !artist.value.country) return "Not specified";
   return ArtistCountry[artist.value.country] || artist.value.country;

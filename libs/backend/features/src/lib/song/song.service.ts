@@ -10,15 +10,17 @@ import { Album } from "../schemas/album.schema";
 export class SongService {
   constructor(
     @InjectModel(Song.name) private songModel: Model<Song>,
-    @InjectModel(Artist.name) private artistModel: Model<any>,
-    @InjectModel(Album.name) private albumModel: Model<any>,
+    @InjectModel(Artist.name) private artistModel: Model<Artist>,
+    @InjectModel(Album.name) private albumModel: Model<Album>,
   ) {}
 
-  async create(createSongDto: CreateSongDto): Promise<Song> {
+  async create(createSongDto: CreateSongDto, userId: string): Promise<Song> {
          // Cast the createdBy field to a proper ObjectId
   const songData = {
     ...createSongDto,
-    createdBy: new Types.ObjectId(createSongDto.createdBy),
+    artist: new Types.ObjectId(createSongDto.artist), // Ensure artist is an ObjectId
+    album: new Types.ObjectId(createSongDto.album), // Ensure album is an ObjectId
+    createdBy: new Types.ObjectId(userId),
   };
 
         const newSong = new this.songModel(songData);
