@@ -8,7 +8,7 @@ const songs = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+const apiBaseUrl = import.meta.env.VITE_API_PROD_URL || "http://localhost:3000/api";
 
 const fetchSongs = async () => {
   try {
