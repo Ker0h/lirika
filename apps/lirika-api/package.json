@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nx build lirika-api",
-    "start": "node dist/apps/lirika-api/main.js",
-    "postinstall": "npm install --legacy-peer-deps"
+    "start": "node dist/apps/lirika-api/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.2",
