@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve lirika-api"
+    "start": "nx serve lirika-api",
+    "postinstall": "npm install --omit=dev --legacy-peer-deps"
   },
   "private": true,
   "dependencies": {
