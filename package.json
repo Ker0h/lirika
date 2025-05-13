@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build:frontend": "nx build lirika",
-    "start:frontend": "serve dist/apps/lirika",
+    "start:frontend": "serve -s dist/apps/lirika",
     "build:backend": "nx build lirika-api",
     "start:backend": "nx serve lirika-api"
   },
