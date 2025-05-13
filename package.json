@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve lirika-api"
+    "build:frontend": "nx build lirika",
+    "start:frontend": "serve dist/apps/lirika",
+    "build:backend": "nx build lirika-api",
+    "start:backend": "nx serve lirika-api"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +30,7 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "serve": "^14.2.4",
     "vue": "^3.3.4",
     "vue-router": "^4.5.0"
   },
