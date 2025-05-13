@@ -36,7 +36,9 @@ onMounted(fetchSongs);
       {{ error }}
     </div>
     <div v-else>
-      <h2 class="text-center mb-4">🎵 Songs</h2>
+      <h2 class="text-center mb-4">
+        🎵 Songs
+      </h2>
       <SongList :songs="songs" />
     </div>
     <div class="text-center mt-4 d-flex justify-content-center gap-3">
