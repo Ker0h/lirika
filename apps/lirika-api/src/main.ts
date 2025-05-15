@@ -12,7 +12,7 @@ async function bootstrap() {
 
  // Enable CORS
   app.enableCors({
-    origin: 'http://localhost:4200', // Allow requests from your Vue app
+    origin: '*', // Allow requests from your Vue app
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true, // If you're using authentication
