@@ -9,7 +9,7 @@ const loading = ref(true);
 const error = ref(null);
 
 const api = axios.create({
-  baseURL: 'https://lirika.railway.internal/api', // or https:// if SSL is enabled internally
+  baseURL: 'https://lirika-production.up.railway.app/api/songs', // or https:// if SSL is enabled internally
 });
 
 const fetchSongs = async () => {
