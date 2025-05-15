@@ -8,13 +8,14 @@ const songs = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api', // or https:// if SSL is enabled internally
-});
+const apiBaseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_API_PROD_URL
+  : import.meta.env.VITE_API_DEV_URL;
 
 const fetchSongs = async () => {
   try {
-    const response = await axios.get(`${api.defaults.baseURL}/songs`, {
+    console.log("Fetching songs from:", apiBaseUrl);
+    const response = await axios.get(`${apiBaseUrl}/songs`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
