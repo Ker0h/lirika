@@ -81,7 +81,7 @@ const submitForm = async () => {
 
 onMounted(async () => {
   try {
-    const artistResponse = await axios.get(`${apiBaseUrl}/artists`);
+    const artistResponse = await axios.get(`${api.defaults.baseURL}/artists`);
     artists.value = artistResponse.data;
 
     // Watch for changes in artistId to load albums
@@ -93,7 +93,7 @@ onMounted(async () => {
       }
 
       try {
-        const response = await axios.get(`${apiBaseUrl}/albums?artist=${newArtistId}`);
+        const response = await axios.get(`${api.defaults.baseURL}/albums?artist=${newArtistId}`);
         albums.value = response.data;
 
         // If there's only one album, set it as the default
@@ -113,7 +113,7 @@ onMounted(async () => {
 
 
     if (isEditMode.value) {
-      const songResponse = await axios.get(`${apiBaseUrl}/songs/${route.params.id}`);
+      const songResponse = await axios.get(`${api.defaults.baseURL}/songs/${route.params.id}`);
       const song = songResponse.data;
 
       title.value = song.title;

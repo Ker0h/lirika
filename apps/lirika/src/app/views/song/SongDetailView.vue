@@ -25,7 +25,7 @@ if (token) {
 
 const fetchSong = async () => {
   try {
-    const response = await axios.get(`${apiBaseUrl}/songs/${route.params.id}`);
+    const response = await axios.get(`${api.defaults.baseURL}/songs/${route.params.id}`);
     song.value = response.data;
   } catch (err) {
     console.error("Error fetching song:", err);
