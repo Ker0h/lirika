@@ -9,13 +9,13 @@ const artist = ref(null)
 const loading = ref(true);
 const error = ref(null);
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const fetchArtist = async () => {
   try {
-    const response = await axios.get(`${apiBaseUrl}/artists/${route.params.id}`);
+    const response = await axios.get(`${api.defaults.baseURL}/artists/${route.params.id}`);
     artist.value = response.data;
   } catch (err) {
     console.error("Error fetching artist:", err);

@@ -8,13 +8,13 @@ const albums = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const fetchAlbums = async () => {
   try {
-    const response = await axios.get(`${apiBaseUrl}/albums`);
+    const response = await axios.get(`${api.defaults.baseURL}/albums`);
     albums.value = response.data;
   } catch (err) {
     console.error("Error fetching albums:", err);

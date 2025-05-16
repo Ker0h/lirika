@@ -8,13 +8,13 @@ const password = ref('');
 const router = useRouter();
 const errorMessage = ref('');
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const login = async () => {
   try {
-    const response = await axios.post(`${apiBaseUrl}/auth/login`, {
+    const response = await axios.post(`${api.defaults.baseURL}/auth/login`, {
       email: email.value,
       password: password.value,
     });

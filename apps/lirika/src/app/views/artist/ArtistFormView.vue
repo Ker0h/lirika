@@ -20,9 +20,9 @@ const userId = localStorage.getItem("userId");
 
 const genres = Object.values(SongGenre);
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 // If editing, load artist data
 onMounted(async () => {
@@ -31,7 +31,7 @@ onMounted(async () => {
   if (id) {
     isEditMode.value = true;
     try {
-      const { data } = await axios.get(`${apiBaseUrl}/artists/${id}`);
+      const { data } = await axios.get(`${api.defaults.baseURL}/artists/${id}`);
       name.value = data.name;
       biography.value = data.biography;
       genre.value = data.genre;
@@ -73,9 +73,9 @@ const submitForm = async () => {
 
   try {
     if (isEditMode.value) {
-      await axios.put(`${apiBaseUrl}/artists/${route.params.id}`, payload);
+      await axios.put(`${api.defaults.baseURL}/artists/${route.params.id}`, payload);
     } else {
-      await axios.post(`${apiBaseUrl}/artists`, payload);
+      await axios.post(`${api.defaults.baseURL}/artists`, payload);
     }
 
     router.push("/artists");

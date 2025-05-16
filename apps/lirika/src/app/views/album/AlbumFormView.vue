@@ -16,9 +16,9 @@ const route = useRoute();
 const router = useRouter();
 const userId = localStorage.getItem("userId");
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const isEditMode = computed(() => !!route.params.id);
 
@@ -47,9 +47,9 @@ const submitForm = async () => {
     };
 
     if (isEditMode.value) {
-      await axios.put(`${apiBaseUrl}/albums/${route.params.id}`, payload);
+      await axios.put(`${api.defaults.baseURL}/albums/${route.params.id}`, payload);
     } else {
-      await axios.post(`${apiBaseUrl}/albums`, payload);
+      await axios.post(`${api.defaults.baseURL}/albums`, payload);
     }
 
     router.push("/albums");
@@ -62,12 +62,12 @@ const submitForm = async () => {
 onMounted(async () => {
   try {
     // Fetch all artists
-    const artistResponse = await axios.get(`${apiBaseUrl}/artists`);
+    const artistResponse = await axios.get(`${api.defaults.baseURL}/artists`);
     artists.value = artistResponse.data;
 
     // If editing, load album data
     if (isEditMode.value) {
-      const albumResponse = await axios.get(`${apiBaseUrl}/albums/${route.params.id}`);
+      const albumResponse = await axios.get(`${api.defaults.baseURL}/albums/${route.params.id}`);
       const album = albumResponse.data;
 
       title.value = album.title;

@@ -61,11 +61,10 @@ const submitForm = async () => {
       title: title.value,
       genre: genre.value,
       releaseYear: releaseYear.value,
-      artist: new Types.ObjectId(artistId.value),
-      album: new Types.ObjectId(albumId.value),
+      artist: artistId.value,
+      album: albumId.value,
       createdBy: new Types.ObjectId(userId),
     };
-
 
     if (isEditMode.value) {
       await axios.put(`${api.defaults.baseURL}/songs/${route.params.id}`, payload);
