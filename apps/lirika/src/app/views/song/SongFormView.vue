@@ -34,10 +34,9 @@ const router = useRouter();
 // Genres
 const genres = Object.values(SongGenre);
 
-// API base URL
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const isEditMode = computed(() => !!route.params.id);
 
@@ -68,9 +67,9 @@ const submitForm = async () => {
     };
 
     if (isEditMode.value) {
-      await axios.put(`${apiBaseUrl}/songs/${route.params.id}`, payload);
+      await axios.put(`${api.defaults.baseURL}/songs/${route.params.id}`, payload);
     } else {
-      await axios.post(`${apiBaseUrl}/songs`, payload);
+      await axios.post(`${api.defaults.baseURL}/songs`, payload);
     }
 
     router.push("/songs");

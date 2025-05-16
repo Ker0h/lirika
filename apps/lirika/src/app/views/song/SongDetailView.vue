@@ -11,9 +11,9 @@ const error = ref(null);
 
 const currentUserId = localStorage.getItem("userId");
 
-const apiBaseUrl = import.meta.env.PROD
-  ? import.meta.env.VITE_API_PROD_URL
-  : import.meta.env.VITE_API_DEV_URL;
+const api = axios.create({
+  baseURL: 'https://lirika-production.up.railway.app/api',
+});
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -39,7 +39,7 @@ const deleteSong = async () => {
   if (!confirm("Are you sure you want to delete this song?")) return;
 
   try {
-    await axios.delete(`${apiBaseUrl}/songs/${route.params.id}`);
+    await axios.delete(`${api.defaults.baseURL}/songs/${route.params.id}`);
     alert("Song deleted successfully.");
     router.push("/songs");
   } catch (err) {
