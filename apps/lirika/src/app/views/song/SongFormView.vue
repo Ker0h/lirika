@@ -66,6 +66,8 @@ const submitForm = async () => {
       createdBy: new Types.ObjectId(userId),
     };
 
+    console.log("Payload:", payload);
+
     if (isEditMode.value) {
       await axios.put(`${api.defaults.baseURL}/songs/${route.params.id}`, payload);
     } else {
