@@ -9,7 +9,7 @@ const router = useRouter();
 const errorMessage = ref('');
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'https://lirika-production.up.railway.app/api',
 });
 
 const login = async () => {

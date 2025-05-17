@@ -21,7 +21,7 @@ const userId = localStorage.getItem("userId");
 const genres = Object.values(SongGenre);
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'https://lirika-production.up.railway.app/api',
 });
 
 // If editing, load artist data
