@@ -14,6 +14,8 @@ const api = axios.create({
 
 const fetchSongs = async () => {
   try {
+    console.log(`Fetching songs from ${api.defaults.baseURL}/songs`);
+    loading.value = true;
     const response = await axios.get(`${api.defaults.baseURL}/songs`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
