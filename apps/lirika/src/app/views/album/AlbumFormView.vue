@@ -17,7 +17,7 @@ const router = useRouter();
 const userId = localStorage.getItem("userId");
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const isEditMode = computed(() => !!route.params.id);

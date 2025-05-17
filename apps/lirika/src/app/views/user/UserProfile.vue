@@ -15,11 +15,12 @@ const error = ref(null);
 const loading = ref(true);
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 onMounted(async () => {
   try {
+    loading.value = true;
     const [userRes, songsRes, albumsRes, artistsRes] = await Promise.all([
       axios.get(`${api.defaults.baseURL}/users/${route.params.id}`),
       axios.get(`${api.defaults.baseURL}/songs?createdBy=${route.params.id}`),

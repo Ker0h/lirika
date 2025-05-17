@@ -12,7 +12,7 @@ const error = ref(null);
 const currentUserId = localStorage.getItem("userId");
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_PROD_URL || import.meta.env.VITE_API_DEV_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const token = localStorage.getItem("token");
@@ -25,6 +25,7 @@ if (token) {
 
 const fetchSong = async () => {
   try {
+    loading.value = true;
     const response = await axios.get(`${api.defaults.baseURL}/songs/${route.params.id}`);
     song.value = response.data;
   } catch (err) {

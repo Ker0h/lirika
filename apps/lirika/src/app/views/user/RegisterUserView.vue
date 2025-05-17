@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const router = useRouter();

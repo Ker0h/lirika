@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const route = useRoute();
@@ -23,6 +23,7 @@ if (token) {
 
 const fetchAlbum = async () => {
   try {
+    loading.value = true;
     const response = await axios.get(`${api.defaults.baseURL}/albums/${route.params.id}`);
     album.value = response.data;
   } catch (err) {

@@ -10,7 +10,7 @@ const router = useRouter();
 const artist = ref(null);
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const token = localStorage.getItem("token");
@@ -30,6 +30,7 @@ const error = ref(null);
 
 const fetchArtist = async () => {
   try {
+    loading.value = true;
     const response = await axios.get(`${api.defaults.baseURL}/artists/${route.params.id}`);
     artist.value = response.data;
   } catch (err) {
