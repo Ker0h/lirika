@@ -36,7 +36,7 @@ const deleteAlbum = async () => {
   if (!confirm("Are you sure you want to delete this album?")) return;
 
   try {
-    await axios.delete(`http://localhost:3000/api/albums/${route.params.id}`);
+    await axios.delete(`${api.defaults.baseURL}/albums/${route.params.id}`);
     alert("Album deleted successfully.");
     router.push("/albums");
   } catch (err) {
