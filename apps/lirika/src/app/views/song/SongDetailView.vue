@@ -12,7 +12,7 @@ const error = ref(null);
 const currentUserId = localStorage.getItem("userId");
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_PROD_URL || import.meta.env.VITE_API_DEV_URL,
 });
 
 const token = localStorage.getItem("token");
