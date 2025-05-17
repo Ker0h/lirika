@@ -9,7 +9,7 @@ const loading = ref(true);
 const error = ref(null);
 
 const api = axios.create({
-  baseURL: 'https://lirika-production.up.railway.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const fetchSongs = async () => {
