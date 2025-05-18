@@ -8,6 +8,8 @@ const songs = ref([]);
 const loading = ref(true);
 const error = ref(null);
 
+// Create an axios instance with the base URL
+// (Using enviroment variables couldn't be done, because of issues with Railway)
 const api = axios.create({
   baseURL: 'https://lirika-production.up.railway.app/api',
 });

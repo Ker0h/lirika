@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { ArtistCountry } from "@lirika/shared/api";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";

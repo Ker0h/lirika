@@ -38,6 +38,7 @@ const api = axios.create({
   baseURL: 'https://lirika-production.up.railway.app/api',
 });
 
+// If there is an id in the route params, we are in edit mode
 const isEditMode = computed(() => !!route.params.id);
 
 const token = localStorage.getItem("token");
@@ -66,6 +67,8 @@ const submitForm = async () => {
       createdBy: new Types.ObjectId(userId),
     };
 
+    // If in edit mode, update the song
+    // Otherwise, create a new song
     if (isEditMode.value) {
       await axios.put(`${api.defaults.baseURL}/songs/${route.params.id}`, payload);
     } else {
@@ -81,6 +84,7 @@ const submitForm = async () => {
 
 onMounted(async () => {
   try {
+    loading.value = true;
     const artistResponse = await axios.get(`${api.defaults.baseURL}/artists`);
     artists.value = artistResponse.data;
 

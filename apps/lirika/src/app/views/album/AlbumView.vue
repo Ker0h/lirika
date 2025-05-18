@@ -1,6 +1,5 @@
 <script setup>
 import { AlbumList } from '@lirika/ui';
-
 import { ref, onMounted } from "vue";
 import axios from "axios";
 

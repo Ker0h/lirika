@@ -9,12 +9,14 @@ const song = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+// Get the current user ID from localStorage
 const currentUserId = localStorage.getItem("userId");
 
 const api = axios.create({
   baseURL: 'https://lirika-production.up.railway.app/api',
 });
 
+// Set the Authorization header if a token is present
 const token = localStorage.getItem("token");
 if (token) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -36,6 +38,7 @@ const fetchSong = async () => {
   }
 };
 
+// Function to delete the song
 const deleteSong = async () => {
   if (!confirm("Are you sure you want to delete this song?")) return;
 
@@ -49,6 +52,7 @@ const deleteSong = async () => {
   }
 };
 
+// Check if the current user is the owner of the song
 const isOwner = computed(() => song.value?.createdBy === currentUserId);
 
 onMounted(fetchSong);

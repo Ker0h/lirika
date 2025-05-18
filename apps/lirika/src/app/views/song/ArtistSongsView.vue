@@ -13,6 +13,7 @@ const api = axios.create({
   baseURL: 'https://lirika-production.up.railway.app/api',
 });
 
+// Fetch artist details and songs
 const fetchArtist = async () => {
   try {
     loading.value = true;
