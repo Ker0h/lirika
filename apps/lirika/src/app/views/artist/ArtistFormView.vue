@@ -14,6 +14,7 @@ const formValidated = ref(false);
 const formRef = ref(null);
 const router = useRouter();
 const route = useRoute();
+const loading = ref(true);
 const error = ref(null);
 const isEditMode = ref(false);
 const userId = localStorage.getItem("userId");
@@ -31,6 +32,7 @@ onMounted(async () => {
   if (id) {
     isEditMode.value = true;
     try {
+      loading.value = true;
       const { data } = await axios.get(`${api.defaults.baseURL}/artists/${id}`);
       name.value = data.name;
       biography.value = data.biography;
@@ -40,6 +42,8 @@ onMounted(async () => {
     } catch (err) {
       console.error(err);
       error.value = "Failed to load artist data.";
+    } finally {
+      loading.value = false;
     }
   }
 });
@@ -90,6 +94,11 @@ const submitForm = async () => {
   <div class="container mt-4">
     <h2 class="mb-4 text-center">{{ isEditMode ? "Edit Artist" : "Add New Artist" }}</h2>
 
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <div v-if="error" class="alert alert-danger text-center">{{ error }}</div>
 
     <form ref="formRef" :class="{ 'was-validated': formValidated }" @submit.prevent="submitForm"

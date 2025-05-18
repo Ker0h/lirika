@@ -48,8 +48,9 @@ onMounted(async () => {
     <h2 class="mb-4 text-center">My Profile</h2>
 
     <div v-if="loading" class="text-center">
-      <i class="bi bi-arrow-clockwise fs-1 text-primary"></i>
-      <p>Loading...</p>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
 
     <div v-if="!loading && !user" class="alert alert-danger text-center">

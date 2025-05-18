@@ -139,6 +139,13 @@ onMounted(async () => {
   <div class="container mt-4">
     <h2 class="mb-4 text-center">{{ isEditMode ? "Edit Song" : "Add New Song" }}</h2>
 
+    <div class="container mt-4">
+      <div v-if="loading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
     <div v-if="error" class="alert alert-danger text-center">{{ error }}</div>
 
     <form v-if="!loading" ref="formRef" :class="{ 'was-validated': formValidated }" @submit.prevent="submitForm"
