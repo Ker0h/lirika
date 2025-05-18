@@ -28,6 +28,8 @@ const countryName = computed(() => {
 const loading = ref(true);
 const error = ref(null);
 
+const currentUserId = localStorage.getItem("userId");
+
 const fetchArtist = async () => {
   try {
     loading.value = true;
@@ -53,6 +55,8 @@ const deleteArtist = async () => {
     alert("Failed to delete artist. Try again.");
   }
 };
+
+const isOwner = computed(() => artist.value?.createdBy === currentUserId);
 
 onMounted(fetchArtist);
 </script>
@@ -105,7 +109,7 @@ onMounted(fetchArtist);
             </li>
           </ul>
 
-          <div class="text-center mt-4 d-flex justify-content-center gap-3">
+          <div v-if="isOwner" class="text-center mt-4 d-flex justify-content-center gap-3">
             <router-link :to="`/artists/${artist._id}/edit`" class="btn btn-primary">
               ✏️ Edit Artist
             </router-link>

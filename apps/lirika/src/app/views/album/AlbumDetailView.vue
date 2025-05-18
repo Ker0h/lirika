@@ -13,6 +13,8 @@ const album = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+const currentUserId = localStorage.getItem("userId");
+
 const token = localStorage.getItem("token");
 if (token) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -45,6 +47,8 @@ const deleteAlbum = async () => {
     alert("Failed to delete album. Try again.");
   }
 };
+
+const isOwner = computed(() => album.value?.createdBy === currentUserId);
 
 onMounted(fetchAlbum);
 </script>
@@ -80,7 +84,7 @@ onMounted(fetchAlbum);
             </li>
           </ul>
 
-          <div class="text-center mt-4 d-flex justify-content-center gap-3">
+          <div v-if="isOwner" class="text-center mt-4 d-flex justify-content-center gap-3">
             <router-link :to="`/albums/${album._id}/edit`" class="btn btn-primary">
               ✏️ Edit Album
             </router-link>
